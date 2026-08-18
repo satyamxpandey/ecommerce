@@ -38,13 +38,12 @@
       const res = await fetch(API_URL);
       STORE_DATA = await res.json();
       
-      // If no ID is passed, pick the first product as a fallback
       ITEM = PRODUCT_ID ? STORE_DATA.products.find(p => p.id === PRODUCT_ID) : STORE_DATA.products[0];
       
       if (!ITEM) {
         document.getElementById('mainContainer').innerHTML = `
           <div class="text-center py-5">
-            <h4>No Products Available</h4>
+            <h4>Product Not Found</h4>
             <a href="index.html" class="btn btn-outline-dark mt-3">Back to Collection</a>
           </div>
         `;
@@ -57,7 +56,7 @@
   }
 
   function calculatePrice(karat) {
-    const factor = STORE_DATA.karatFactors[karat] || 0.75;
+    const factor = STORE_DATA.karatFactors[karat] || 0.9166;
     const goldCost = ITEM.netGoldWt * (STORE_DATA.rates.gold24k * factor);
     const subtotal = goldCost + ITEM.makingCharges + ITEM.stoneCost;
     const gst = subtotal * (STORE_DATA.rates.gst / 100);
@@ -73,7 +72,7 @@
 
   function renderProductPage(selectedKarat) {
     const calc = calculatePrice(selectedKarat);
-    const waMsg = encodeURIComponent(`Hello, I would like to order "${ITEM.title}" (${selectedKarat} Gold) at the live price of ₹${calc.finalPrice.toLocaleString('en-IN')}.`);
+    const waMsg = encodeURIComponent(`Hello, I want to order "${ITEM.title}" (${selectedKarat} Gold) at the live price of ₹${calc.finalPrice.toLocaleString('en-IN')}.`);
     const waLink = `https://wa.me/${WHATSAPP_PHONE}?text=${waMsg}`;
 
     let stoneRows = '';
@@ -84,6 +83,24 @@
           <strong>₹${Number(s.price).toLocaleString('en-IN')}</strong>
         </li>
       `).join('');
+    }
+
+    // Dynamic Purity Selector: Only allow variants for regular jewellery
+    let puritySectionHtml = '';
+    if (ITEM.category === 'Coin') {
+      puritySectionHtml = `<div class="alert alert-warning py-2 px-3 fw-bold small">Purity: 24K (99.9% Fine Gold)</div>`;
+    } else if (ITEM.category === 'Ginni') {
+      puritySectionHtml = `<div class="alert alert-warning py-2 px-3 fw-bold small">Purity: 22K (91.6% Pure Ginni)</div>`;
+    } else {
+      puritySectionHtml = `
+        <label class="form-label fw-bold small text-muted">SELECT GOLD PURITY</label>
+        <div class="btn-group w-100 mb-4" role="group">
+          ${['14K', '18K', '22K'].map(k => `
+            <input type="radio" class="btn-check" name="kOptions" id="k_${k}" ${k === selectedKarat ? 'checked' : ''} onchange="renderProductPage('${k}')">
+            <label class="btn btn-outline-dark" for="k_${k}">${k}</label>
+          `).join('')}
+        </div>
+      `;
     }
 
     document.getElementById('mainContainer').innerHTML = `
@@ -102,15 +119,9 @@
           <div class="price-box shadow-sm">
             <span class="badge bg-light text-primary border mb-2">${ITEM.certificate}</span>
             <h3 class="fw-bold mb-2">${ITEM.title}</h3>
-            <p class="text-muted small mb-3">${ITEM.description}</p>
+            <p class="text-muted small mb-3">${ITEM.description || ''}</p>
 
-            <label class="form-label fw-bold small text-muted">SELECT GOLD PURITY</label>
-            <div class="btn-group w-100 mb-4" role="group">
-              ${['14K', '18K', '22K', '24K'].map(k => `
-                <input type="radio" class="btn-check" name="kOptions" id="k_${k}" ${k === selectedKarat ? 'checked' : ''} onchange="renderProductPage('${k}')">
-                <label class="btn btn-outline-dark" for="k_${k}">${k}</label>
-              `).join('')}
-            </div>
+            ${puritySectionHtml}
 
             <div class="card bg-light border-0 p-3 mb-4">
               <h6 class="fw-bold mb-3">Price Breakdown</h6>
