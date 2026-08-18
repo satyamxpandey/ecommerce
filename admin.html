@@ -17,16 +17,16 @@
   
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h4 class="fw-bold m-0">Admin & Seller Control Hub</h4>
-    <span class="badge bg-dark px-3 py-2 fs-6">Live 24K Rate: ₹<span id="admRateDisplay">...</span>/g</span>
+    <span class="badge bg-dark px-3 py-2 fs-6">Live 24K Benchmark: ₹<span id="admRateDisplay">...</span>/g</span>
   </div>
 
   <div class="row g-4">
     
-    <!-- 1. Gold Rate Controller -->
+    <!-- 1. Master Gold Rate Controller -->
     <div class="col-12">
       <div class="card p-4 shadow-sm border-0">
-        <h5 class="fw-bold text-danger mb-2"><i class="bi bi-lightning-charge-fill"></i> Update Master Gold Rate</h5>
-        <p class="text-muted small">Changing this value recalculates all product prices across the entire catalogue.</p>
+        <h5 class="fw-bold text-danger mb-2"><i class="bi bi-lightning-charge-fill"></i> Update Master Gold Rate (24K)</h5>
+        <p class="text-muted small">Changing this rate automatically updates all 24K Coins, 22K Ginni & Traditional Jewellery, and 18K/14K Diamond Jewellery.</p>
         <div class="input-group mb-3">
           <span class="input-group-text fw-bold">₹</span>
           <input type="number" id="rateInput" class="form-control form-control-lg fw-bold" placeholder="7400">
@@ -35,38 +35,48 @@
       </div>
     </div>
 
-    <!-- 2. Add New Product -->
+    <!-- 2. Product Listing Portal -->
     <div class="col-12">
       <div class="card p-4 shadow-sm border-0">
-        <h5 class="fw-bold mb-3"><i class="bi bi-plus-circle me-1"></i> Add New Jewellery Item</h5>
+        <h5 class="fw-bold mb-3"><i class="bi bi-plus-circle me-1"></i> Add New Jewellery / Coin Item</h5>
         <form id="prodForm" onsubmit="handleProductSubmit(event)">
           <div class="row g-3">
             <div class="col-md-8">
-              <label class="form-label fw-semibold">Title</label>
-              <input type="text" id="p_title" class="form-control" placeholder="e.g. Diamond Solitaire Ring" required>
+              <label class="form-label fw-semibold">Product Title</label>
+              <input type="text" id="p_title" class="form-control" placeholder="e.g. 24K Gold Coin 10g / Solitaire Ring" required>
             </div>
             <div class="col-md-4">
               <label class="form-label fw-semibold">Category</label>
-              <select id="p_category" class="form-select">
-                <option>Ring</option>
-                <option>Necklace</option>
-                <option>Earrings</option>
-                <option>Bangle</option>
-                <option>Pendant</option>
+              <select id="p_category" class="form-select" onchange="onCategoryChanged(this.value)">
+                <option value="Ring">Ring</option>
+                <option value="Necklace">Necklace</option>
+                <option value="Earrings">Earrings</option>
+                <option value="Bangle">Bangle</option>
+                <option value="Bracelet">Bracelet</option>
+                <option value="Pendant">Pendant</option>
+                <option value="Mangalsutra">Mangalsutra</option>
+                <option value="Nose Pin">Nose Pin</option>
+                <option value="Coin">Gold Coin (24K)</option>
+                <option value="Ginni">Ginni (22K)</option>
+                <option value="Other">Other (Custom Category)</option>
               </select>
             </div>
+
+            <!-- Custom Category Field -->
+            <div class="col-md-12" id="customCategoryDiv" style="display: none;">
+              <label class="form-label fw-semibold text-primary">Enter Custom Category</label>
+              <input type="text" id="p_custom_category" class="form-control" placeholder="e.g. Payal, Kada, Brooch...">
+            </div>
+
             <div class="col-md-6">
-              <label class="form-label fw-semibold">Default Karat</label>
+              <label class="form-label fw-semibold">Gold Purity (Karat)</label>
               <select id="p_karat" class="form-select">
-                <option value="22K">22K</option>
-                <option value="18K" selected>18K</option>
-                <option value="14K">14K</option>
-                <option value="24K">24K</option>
+                <!-- Populated dynamically based on category -->
               </select>
             </div>
             <div class="col-md-6">
-              <label class="form-label fw-semibold">Certificate / Hallmark</label>
-              <input type="text" id="p_cert" class="form-control" value="BIS Hallmarked" required>
+              <label class="form-label fw-semibold">Hallmark / Certification</label>
+              <input type="text" id="p_cert" class="form-control" value="BIS 916 Hallmarked" required>
             </div>
             <div class="col-md-12">
               <label class="form-label fw-semibold">Image URL</label>
@@ -74,28 +84,30 @@
             </div>
             <div class="col-md-4">
               <label class="form-label fw-semibold">Gross Weight (g)</label>
-              <input type="number" step="0.001" id="p_gross" class="form-control" required>
+              <input type="number" step="0.001" id="p_gross" class="form-control" placeholder="e.g. 10.000" required>
             </div>
             <div class="col-md-4">
               <label class="form-label fw-semibold">Net Gold Weight (g)</label>
-              <input type="number" step="0.001" id="p_net" class="form-control" required>
+              <input type="number" step="0.001" id="p_net" class="form-control" placeholder="e.g. 10.000" required>
             </div>
             <div class="col-md-4">
-              <label class="form-label fw-semibold">Making Charges (₹)</label>
-              <input type="number" id="p_making" class="form-control" required>
+              <label class="form-label fw-semibold">Making / Wastage Charges (₹)</label>
+              <input type="number" id="p_making" class="form-control" placeholder="e.g. 500" required>
             </div>
           </div>
 
-          <!-- Stones -->
-          <div class="d-flex justify-content-between align-items-center mt-4 mb-2">
-            <h6 class="fw-bold m-0">💎 Diamonds & Gemstones</h6>
-            <button type="button" class="btn btn-outline-primary btn-sm" onclick="addStoneRow()">+ Add Stone</button>
+          <!-- Stones Section -->
+          <div id="stonesSection" class="mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h6 class="fw-bold m-0">💎 Diamonds & Gemstones (Optional)</h6>
+              <button type="button" class="btn btn-outline-primary btn-sm" onclick="addStoneRow()">+ Add Stone</button>
+            </div>
+            <div id="stonesWrap"></div>
           </div>
-          <div id="stonesWrap"></div>
 
           <div class="mb-3 mt-3">
             <label class="form-label fw-semibold">Description</label>
-            <textarea id="p_desc" class="form-control" rows="2"></textarea>
+            <textarea id="p_desc" class="form-control" rows="2" placeholder="Item purity, minting info, or stone specifications..."></textarea>
           </div>
 
           <button type="submit" id="subBtn" class="btn btn-dark w-100 py-2 fw-bold">Publish to Google Sheet</button>
@@ -109,7 +121,45 @@
 <script>
   const API_URL = "https://script.google.com/macros/s/AKfycbz5uc_CI0_NhdStVcFhtvDJ7PORoGu7qzlx_JL44S1G4tQmvxpo9tPRicv9a_rNrqT5/exec";
 
+  function onCategoryChanged(category) {
+    const karatSelect = document.getElementById('p_karat');
+    const certInput = document.getElementById('p_cert');
+    const stonesSection = document.getElementById('stonesSection');
+    const customCatDiv = document.getElementById('customCategoryDiv');
+    const customCatInput = document.getElementById('p_custom_category');
+
+    // Toggle custom category input
+    if (category === 'Other') {
+      customCatDiv.style.display = 'block';
+      customCatInput.required = true;
+    } else {
+      customCatDiv.style.display = 'none';
+      customCatInput.required = false;
+      customCatInput.value = '';
+    }
+
+    // Dynamic Purity Enforcement
+    if (category === 'Coin') {
+      karatSelect.innerHTML = '<option value="24K" selected>24K (99.9% Pure Gold Coin)</option>';
+      certInput.value = "999 Fine Gold / Assay Certified";
+      stonesSection.style.display = "none";
+    } else if (category === 'Ginni') {
+      karatSelect.innerHTML = '<option value="22K" selected>22K (91.6% Pure Traditional Ginni)</option>';
+      certInput.value = "BIS 916 Hallmarked";
+      stonesSection.style.display = "none";
+    } else {
+      karatSelect.innerHTML = `
+        <option value="22K" selected>22K (91.6% Hallmark Gold)</option>
+        <option value="18K">18K (75.0% Fine Diamond Gold)</option>
+        <option value="14K">14K (58.3% Dailywear Gold)</option>
+      `;
+      certInput.value = "BIS Hallmarked";
+      stonesSection.style.display = "block";
+    }
+  }
+
   async function initAdmin() {
+    onCategoryChanged(document.getElementById('p_category').value);
     try {
       const res = await fetch(API_URL);
       const data = await res.json();
@@ -152,7 +202,7 @@
       alert('Gold rate updated and all inventory prices refreshed!');
       initAdmin();
     } catch(err) {
-      alert('Updated successfully!');
+      alert('Rate updated successfully!');
       initAdmin();
     } finally {
       btn.disabled = false;
@@ -176,9 +226,14 @@
       });
     });
 
+    let selectedCategory = document.getElementById('p_category').value;
+    if (selectedCategory === 'Other') {
+      selectedCategory = document.getElementById('p_custom_category').value.trim() || 'Other';
+    }
+
     const payload = {
       title: document.getElementById('p_title').value,
-      category: document.getElementById('p_category').value,
+      category: selectedCategory,
       karat: document.getElementById('p_karat').value,
       certificate: document.getElementById('p_cert').value,
       image: document.getElementById('p_img').value,
@@ -194,9 +249,10 @@
         method: "POST",
         body: JSON.stringify({ action: "saveProduct", product: payload })
       });
-      alert('Product saved to Google Sheet!');
+      alert('Product published to Google Sheet!');
       document.getElementById('prodForm').reset();
       document.getElementById('stonesWrap').innerHTML = '';
+      onCategoryChanged('Ring');
       initAdmin();
     } catch(err) {
       alert('Product saved successfully!');
