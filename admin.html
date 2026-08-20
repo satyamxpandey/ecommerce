@@ -20,7 +20,7 @@
     }
     /* Login Portal Styling */
     .login-container {
-      min-height: 100vh;
+      min-height: 85vh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -47,13 +47,13 @@
 </head>
 <body class="p-3 p-md-4">
 
-<!-- 1. PROFESSIONAL LOGIN GATE (Default Visible) -->
+<!-- 1. PROFESSIONAL LOGIN GATE -->
 <div id="loginGate" class="login-container">
   <div class="card p-4 p-md-5 border-0 login-card">
     <div class="brand-icon">
       <i class="bi bi-shield-lock"></i>
     </div>
-    <h4 class="fw-bold text-center mb-1">Admin Portal</h4>
+    <h4 class="fw-bold text-center mb-1">Seller Portal</h4>
     <p class="text-muted text-center small mb-4">Authorized Access Only</p>
     
     <form onsubmit="handleLogin(event)">
@@ -74,11 +74,11 @@
   </div>
 </div>
 
-<!-- 2. MAIN ADMIN PANEL (Hidden until login) -->
+<!-- 2. MAIN SELLER PANEL (Hidden until login) -->
 <div id="adminPanel" class="container" style="max-width: 900px; display: none;">
   
   <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-    <h4 class="fw-bold m-0">Admin & Seller Control Hub</h4>
+    <h4 class="fw-bold m-0">Seller Control Hub</h4>
     <div class="d-flex align-items-center gap-2">
       <span class="badge bg-dark px-3 py-2 fs-6">Live 24K Benchmark: ₹<span id="admRateDisplay">...</span>/g</span>
       <button onclick="handleLogout()" class="btn btn-outline-danger btn-sm px-3 fw-semibold"><i class="bi bi-box-arrow-right me-1"></i> Logout</button>
@@ -175,7 +175,7 @@
             <textarea id="p_desc" class="form-control" rows="2" placeholder="Item purity, minting info, or stone specifications..."></textarea>
           </div>
 
-          <button type="submit" id="subBtn" class="btn btn-dark w-100 py-2 fw-bold">Publish now</button>
+          <button type="submit" id="subBtn" class="btn btn-dark w-100 py-2 fw-bold">Publish Item</button>
         </form>
       </div>
     </div>
@@ -191,14 +191,17 @@
 
   // Check state on load
   function checkAuth() {
-    const isAuthenticated = sessionStorage.getItem('adminAuth') === 'true';
+    const isAuthenticated = sessionStorage.getItem('sellerAuth') === 'true';
+    const loginGate = document.getElementById('loginGate');
+    const adminPanel = document.getElementById('adminPanel');
+
     if (isAuthenticated) {
-      document.getElementById('loginGate').style.display = 'none';
-      document.getElementById('adminPanel').style.display = 'block';
+      loginGate.style.setProperty('display', 'none', 'important');
+      adminPanel.style.display = 'block';
       initAdmin();
     } else {
-      document.getElementById('loginGate').style.display = 'flex';
-      document.getElementById('adminPanel').style.display = 'none';
+      loginGate.style.setProperty('display', 'flex', 'important');
+      adminPanel.style.display = 'none';
     }
   }
 
@@ -206,7 +209,7 @@
     e.preventDefault();
     const inputPass = document.getElementById('adminPasswordInput').value;
     if (inputPass === ADMIN_PASSWORD) {
-      sessionStorage.setItem('adminAuth', 'true');
+      sessionStorage.setItem('sellerAuth', 'true');
       document.getElementById('loginError').style.display = 'none';
       document.getElementById('adminPasswordInput').value = '';
       checkAuth();
@@ -216,7 +219,7 @@
   }
 
   function handleLogout() {
-    sessionStorage.removeItem('adminAuth');
+    sessionStorage.removeItem('sellerAuth');
     checkAuth();
   }
 
@@ -346,16 +349,16 @@
         method: "POST",
         body: JSON.stringify({ action: "saveProduct", product: payload })
       });
-      alert('Product Uploaded');
+      alert('Item published successfully!');
       document.getElementById('prodForm').reset();
       document.getElementById('stonesWrap').innerHTML = '';
       onCategoryChanged('Ring');
       initAdmin();
     } catch(err) {
-      alert('Product saved successfully!');
+      alert('Item published successfully!');
     } finally {
       btn.disabled = false;
-      btn.innerText = 'Published Item;
+      btn.innerText = 'Publish Item';
     }
   }
 
