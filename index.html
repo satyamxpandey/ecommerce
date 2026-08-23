@@ -3,150 +3,304 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KaratOS Luxury Store</title>
+  <title>All Jewellery | Suman Jewellers</title>
+
+  <!-- Google Fonts & Bootstrap -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  
+  <!-- AOS (Scroll Magic Animation Engine) -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
   <style>
     :root {
-      --gold-dark: #8c6b12;
-      --gold-light: #fff9e6;
+      --bg-cream: #FAF7F2;
+      --surface-cream: #FFFFFF;
+      --primary-black: #121212;
+      --maroon-accent: #6B1D2F;
+      --maroon-hover: #4E1220;
+      --maroon-light: #F4E8EB;
+      --border-maroon: rgba(107, 29, 47, 0.2);
+      --border-subtle: #E8E2D9;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans: 'Montserrat', sans-serif;
     }
-    body { background-color: #fcfcfc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    .card-product { border: 1px solid #eee; border-radius: 14px; background: #fff; transition: all 0.2s ease; overflow: hidden; text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%; }
-    .card-product:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.06); color: inherit; }
-    .product-img { width: 100%; height: 240px; object-fit: cover; background-color: #f4f4f4; }
-    .badge-ticker { background: var(--gold-light); color: var(--gold-dark); border: 1px solid #fae2a6; font-weight: 700; font-size: 13px; }
-    .nav-cat { border-bottom: 2px solid #e9ecef; }
-    .nav-cat .nav-link { color: #555; font-weight: 600; padding: 12px 18px; border: none; border-bottom: 3px solid transparent; border-radius: 0; }
-    .nav-cat .nav-link.active { color: #000; border-bottom: 3px solid #000; background: transparent; font-weight: 700; }
+
+    body {
+      background-color: var(--bg-cream);
+      font-family: var(--font-sans);
+      color: var(--primary-black);
+      letter-spacing: 0.02em;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, .brand-font {
+      font-family: var(--font-serif);
+      letter-spacing: 0.04em;
+    }
+
+    /* Header & Ticker */
+    .header-luxury {
+      background: var(--surface-cream);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .rate-pill {
+      border: 1px solid var(--border-maroon);
+      background: var(--surface-cream);
+      padding: 6px 16px;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--maroon-accent);
+    }
+
+    /* Category Navigation */
+    .nav-luxury-container {
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .nav-luxury .nav-link {
+      color: #666;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 500;
+      padding: 16px 24px;
+      border: none;
+      border-bottom: 2px solid transparent;
+      background: transparent;
+      transition: all 0.3s ease;
+    }
+    .nav-luxury .nav-link:hover {
+      color: var(--maroon-accent);
+    }
+    .nav-luxury .nav-link.active {
+      color: var(--maroon-accent);
+      border-bottom: 2px solid var(--maroon-accent);
+      font-weight: 600;
+    }
+
+    /* Product Card */
+    .card-product {
+      background: var(--surface-cream);
+      border: 1px solid var(--border-subtle);
+      transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease, border-color 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      position: relative;
+    }
+    .card-product:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 36px rgba(107, 29, 47, 0.08);
+      border-color: var(--maroon-accent);
+      color: inherit;
+    }
+    .card-img-wrapper {
+      position: relative;
+      overflow: hidden;
+      background-color: #F0EDE8;
+      padding-top: 110%;
+    }
+    .card-img-wrapper img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s ease;
+    }
+    .card-product:hover .card-img-wrapper img {
+      transform: scale(1.05);
+    }
+    .cert-badge {
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--maroon-accent);
+      background: var(--maroon-light);
+      padding: 3px 8px;
+      font-weight: 600;
+    }
+    .karat-badge {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      border: 1px solid var(--border-subtle);
+      padding: 2px 8px;
+      color: #777;
+    }
+    .price-tag {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--primary-black);
+    }
+
+    /* Search Box */
+    .search-luxury {
+      background: var(--surface-cream);
+      border: 1px solid var(--border-subtle);
+      border-radius: 0;
+      padding: 12px 18px;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+    }
+    .search-luxury:focus {
+      border-color: var(--maroon-accent);
+      box-shadow: none;
+      background: #FFF;
+    }
   </style>
 </head>
-<body class="p-2 p-md-4">
+<body>
 
-<div class="container-fluid" style="max-width: 1280px;">
-  
-  <div class="d-flex justify-content-between align-items-center bg-white p-3 rounded-4 shadow-sm mb-3 border flex-wrap gap-2">
-    <div>
-      <h4 class="m-0 fw-bold"><i class="bi bi-gem"></i> Jewellery & Bullion Hub</h4>
-      <small class="text-muted">Dynamic Real-Time Rate Recalculation</small>
+  <!-- Top Announcement / Rate Banner -->
+  <header class="header-luxury py-3 px-4">
+    <div class="container-fluid d-flex justify-content-between align-items-center flex-wrap gap-3" style="max-width: 1360px;">
+      <div>
+        <h3 class="m-0 text-uppercase fw-bold brand-font">All Jewellery</h3>
+        <p class="m-0 text-muted small" style="letter-spacing: 0.08em;">Explore Suman Jewellers Collection</p>
+      </div>
+      <div class="d-flex gap-2 flex-wrap">
+        <div class="rate-pill">
+          Gold 24K Benchmark: <strong>₹<span id="rateGold">...</span> /g</strong>
+        </div>
+        <div class="rate-pill" style="border-color: #D3C9BE; color: #555;">
+          Silver Benchmark: <strong>₹<span id="rateSilver">...</span> /g</strong>
+        </div>
+      </div>
     </div>
-    <div class="d-flex gap-2 flex-wrap">
-      <div class="badge-ticker px-3 py-2 rounded-pill">
-        🟡 Gold 24K: <strong>₹<span id="rateGold">...</span>/g</strong>
-      </div>
-      <div class="badge-ticker px-3 py-2 rounded-pill" style="background:#f1f3f5; color:#495057; border-color:#ced4da;">
-        ⚪ Silver: <strong>₹<span id="rateSilver">...</span>/g</strong>
-      </div>
+  </header>
+
+  <!-- Category Filter Bar -->
+  <div class="nav-luxury-container">
+    <div class="container-fluid px-4" style="max-width: 1360px;">
+      <ul class="nav nav-luxury flex-nowrap overflow-auto" id="categoryTabs">
+        <li class="nav-item">
+          <button class="nav-link active" onclick="switchCategoryPage('ALL')">All Pieces</button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" onclick="switchCategoryPage('Gold Jewellery')">Gold Jewellery</button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" onclick="switchCategoryPage('Diamond Jewellery')">Diamond Jewellery</button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" onclick="switchCategoryPage('Silver Jewellery')">Silver Jewellery</button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" onclick="switchCategoryPage('Silver Artifacts')">Silver Articles</button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" onclick="switchCategoryPage('Coin & Ginny')">Coins & Ginni</button>
+        </li>
+      </ul>
     </div>
   </div>
 
-  <ul class="nav nav-cat mb-4 flex-nowrap overflow-auto" id="categoryTabs">
-    <li class="nav-item">
-      <button class="nav-link active" onclick="switchCategoryPage('ALL')">✨ All Items</button>
-    </li>
-    <li class="nav-item">
-      <button class="nav-link" onclick="switchCategoryPage('Gold Jewellery')">🌟 Gold Jewellery</button>
-    </li>
-    <li class="nav-item">
-      <button class="nav-link" onclick="switchCategoryPage('Diamond Jewellery')">💎 Diamond Jewellery</button>
-    </li>
-    <li class="nav-item">
-      <button class="nav-link" onclick="switchCategoryPage('Silver Jewellery')">🥈 Silver Jewellery</button>
-    </li>
-    <li class="nav-item">
-      <button class="nav-link" onclick="switchCategoryPage('Silver Artifacts')">🏺 Silver Artifacts & Murti</button>
-    </li>
-    <li class="nav-item">
-      <button class="nav-link" onclick="switchCategoryPage('Coin & Ginny')">🪙 Coins & Ginni</button>
-    </li>
-  </ul>
-
-  <div class="row mb-4">
-    <div class="col-md-6">
-      <div class="input-group">
-        <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-        <input type="text" id="searchBox" class="form-control" placeholder="Search by design name, weight or karat..." onkeyup="filterCatalogue()">
+  <!-- Search & Content Grid -->
+  <main class="container-fluid py-5 px-4" style="max-width: 1360px;">
+    
+    <div class="row mb-5 justify-content-between align-items-center g-3" data-aos="fade-up">
+      <div class="col-md-5">
+        <input type="text" id="searchBox" class="form-control search-luxury" placeholder="Search by name, weight, or keyword..." onkeyup="filterCatalogue()">
+      </div>
+      <div class="col-md-3 text-md-end text-muted small" style="letter-spacing: 0.05em;">
+        Displaying Curated Masterpieces
       </div>
     </div>
-  </div>
 
-  <div class="row g-4" id="catalogueGrid">
-    <div class="col-12 text-center py-5 text-muted">
-      <div class="spinner-border spinner-border-sm mb-2" role="status"></div>
-      <div>Loading catalogue...</div>
+    <!-- Product Grid -->
+    <div class="row g-4" id="catalogueGrid">
+      <div class="col-12 text-center py-5 text-muted">
+        <div class="spinner-border spinner-border-sm text-secondary mb-2" role="status"></div>
+        <div class="small text-uppercase tracking-wider">Accessing Vault...</div>
+      </div>
     </div>
-  </div>
 
-</div>
+  </main>
 
-<script>
-  const API_URL = "https://script.google.com/macros/s/AKfycbz5uc_CI0_NhdStVcFhtvDJ7PORoGu7qzlx_JL44S1G4tQmvxpo9tPRicv9a_rNrqT5/exec";
-  let STORE_DATA = null;
-  let ACTIVE_CATEGORY = 'ALL';
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 800, once: true, offset: 50 });
 
-  async function loadStore() {
-    try {
-      const res = await fetch(API_URL);
-      STORE_DATA = await res.json();
-      document.getElementById('rateGold').innerText = Number(STORE_DATA.rates.gold24k).toLocaleString('en-IN');
-      document.getElementById('rateSilver').innerText = Number(STORE_DATA.rates.silver).toLocaleString('en-IN');
-      renderProducts();
-    } catch (e) {
-      document.getElementById('catalogueGrid').innerHTML = `<div class="col-12 text-center text-danger py-5">Error connecting to server.</div>`;
-    }
-  }
+    const API_URL = "https://script.google.com/macros/s/AKfycbz5uc_CI0_NhdStVcFhtvDJ7PORoGu7qzlx_JL44S1G4tQmvxpo9tPRicv9a_rNrqT5/exec";
+    let STORE_DATA = null;
+    let ACTIVE_CATEGORY = 'ALL';
 
-  function switchCategoryPage(cat) {
-    ACTIVE_CATEGORY = cat;
-    document.querySelectorAll('#categoryTabs .nav-link').forEach(tab => tab.classList.remove('active'));
-    event.target.classList.add('active');
-    filterCatalogue();
-  }
-
-  function renderProducts(items) {
-    const list = items || (STORE_DATA ? STORE_DATA.products : []);
-    const grid = document.getElementById('catalogueGrid');
-    grid.innerHTML = '';
-
-    if (!list || list.length === 0) {
-      grid.innerHTML = `<div class="col-12 text-center py-5 text-muted">No products available in this category.</div>`;
-      return;
+    async function loadStore() {
+      try {
+        const res = await fetch(API_URL);
+        STORE_DATA = await res.json();
+        document.getElementById('rateGold').innerText = Number(STORE_DATA.rates.gold24k).toLocaleString('en-IN');
+        document.getElementById('rateSilver').innerText = Number(STORE_DATA.rates.silver).toLocaleString('en-IN');
+        renderProducts();
+      } catch (e) {
+        document.getElementById('catalogueGrid').innerHTML = `<div class="col-12 text-center py-5 text-muted">Unable to retrieve live inventory.</div>`;
+      }
     }
 
-    list.forEach(p => {
-      const col = document.createElement('div');
-      col.className = 'col-lg-3 col-md-4 col-sm-6';
-      col.innerHTML = `
-        <a href="product.html?id=${p.id}" class="card-product">
-          <img src="${p.image}" class="product-img" alt="${p.title}" onerror="this.src='https://via.placeholder.com/400x300?text=Jewellery'">
-          <div class="p-3 d-flex flex-column flex-grow-1">
-            <div class="d-flex justify-content-between text-muted small mb-1">
-              <span>${p.mainCategory}</span>
-              <span>${p.netMetalWt}g Net</span>
-            </div>
-            <h6 class="fw-bold text-dark mb-2">${p.title}</h6>
-            <div class="mt-auto d-flex justify-content-between align-items-baseline">
-              <span class="badge bg-light text-dark border">${p.karat}</span>
-              <span class="fs-5 fw-bold text-dark">₹${Number(p.finalPrice).toLocaleString('en-IN')}</span>
-            </div>
-          </div>
-        </a>
-      `;
-      grid.appendChild(col);
-    });
-  }
+    function switchCategoryPage(cat) {
+      ACTIVE_CATEGORY = cat;
+      document.querySelectorAll('#categoryTabs .nav-link').forEach(tab => tab.classList.remove('active'));
+      event.target.classList.add('active');
+      filterCatalogue();
+    }
 
-  function filterCatalogue() {
-    const q = document.getElementById('searchBox').value.toLowerCase();
-    const filtered = STORE_DATA.products.filter(p => {
-      const matchesCat = ACTIVE_CATEGORY === 'ALL' || p.mainCategory === ACTIVE_CATEGORY;
-      const matchesQuery = p.title.toLowerCase().includes(q) || (p.description && p.description.toLowerCase().includes(q));
-      return matchesCat && matchesQuery;
-    });
-    renderProducts(filtered);
-  }
+    function renderProducts(items) {
+      const list = items || (STORE_DATA ? STORE_DATA.products : []);
+      const grid = document.getElementById('catalogueGrid');
+      grid.innerHTML = '';
 
-  window.onload = loadStore;
-</script>
+      if (!list || list.length === 0) {
+        grid.innerHTML = `<div class="col-12 text-center py-5 text-muted brand-font fs-5">No designs found under this selection.</div>`;
+        return;
+      }
+
+      list.forEach((p, idx) => {
+        const col = document.createElement('div');
+        col.className = 'col-xl-3 col-lg-4 col-sm-6';
+        col.setAttribute('data-aos', 'fade-up');
+        col.setAttribute('data-aos-delay', (idx % 4) * 100);
+
+        col.innerHTML = `
+          <a href="product.html?id=${p.id}" class="card-product">
+            <div class="card-img-wrapper">
+              <img src="${p.image}" alt="${p.title}" onerror="this.src='https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600'"/>
+            </div>
+            <div class="p-4 d-flex flex-column flex-grow-1">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="cert-badge">${p.certificate || 'BIS Hallmarked'}</span>
+                <span class="text-muted small">${p.netMetalWt}g Net</span>
+              </div>
+              <h6 class="fw-semibold text-dark mb-3 brand-font" style="font-size: 1.05rem;">${p.title}</h6>
+              <div class="mt-auto d-flex justify-content-between align-items-baseline pt-2 border-top">
+                <span class="karat-badge">${p.karat}</span>
+                <span class="price-tag">₹${Number(p.finalPrice).toLocaleString('en-IN')}</span>
+              </div>
+            </div>
+          </a>
+        `;
+        grid.appendChild(col);
+      });
+    }
+
+    function filterCatalogue() {
+      const q = document.getElementById('searchBox').value.toLowerCase();
+      const filtered = STORE_DATA.products.filter(p => {
+        const matchesCat = ACTIVE_CATEGORY === 'ALL' || p.mainCategory === ACTIVE_CATEGORY;
+        const matchesQuery = p.title.toLowerCase().includes(q) || (p.description && p.description.toLowerCase().includes(q));
+        return matchesCat && matchesQuery;
+      });
+      renderProducts(filtered);
+    }
+
+    window.onload = loadStore;
+  </script>
 </body>
 </html>
