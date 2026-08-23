@@ -19,7 +19,7 @@
 <div class="container" style="max-width: 1000px;" id="mainContainer">
   <div class="text-center py-5 text-muted">
     <div class="spinner-border spinner-border-sm mb-2" role="status"></div>
-    <div>Loading product details...</div>
+    <div>Loading item details...</div>
   </div>
 </div>
 
@@ -43,8 +43,8 @@
       if (!ITEM) {
         document.getElementById('mainContainer').innerHTML = `
           <div class="text-center py-5">
-            <h4>Product Not Found</h4>
-            <a href="index.html" class="btn btn-outline-dark mt-3">Back to Collection</a>
+            <h4>Item Not Found</h4>
+            <a href="index.html" class="btn btn-outline-dark mt-3">Back to Store</a>
           </div>
         `;
         return;
@@ -55,13 +55,23 @@
     }
   }
 
-  function calculatePrice(karat) {
-    const factor = STORE_DATA.karatFactors[karat] || 0.9166;
-    const goldCost = ITEM.netGoldWt * (STORE_DATA.rates.gold24k * factor);
-    const subtotal = goldCost + ITEM.makingCharges + ITEM.stoneCost;
+  function calculatePrice(selectedKarat) {
+    let metalCost = 0;
+    const isSilver = ITEM.mainCategory.includes('Silver');
+    
+    if (isSilver) {
+      const factor = selectedKarat === '925' ? 0.9250 : 1.0000;
+      metalCost = ITEM.netMetalWt * (STORE_DATA.rates.silver * factor);
+    } else {
+      const factors = { "24K": 1.0, "22K": 0.9166, "18K": 0.7500, "14K": 0.5833, "9K": 0.3750 };
+      const factor = factors[selectedKarat] || 0.9166;
+      metalCost = ITEM.netMetalWt * (STORE_DATA.rates.gold24k * factor);
+    }
+
+    const subtotal = metalCost + ITEM.makingCharges + ITEM.stoneCost;
     const gst = subtotal * (STORE_DATA.rates.gst / 100);
     return {
-      goldCost: Math.round(goldCost),
+      metalCost: Math.round(metalCost),
       makingCharges: ITEM.makingCharges,
       stoneCost: ITEM.stoneCost,
       subtotal: Math.round(subtotal),
@@ -72,7 +82,8 @@
 
   function renderProductPage(selectedKarat) {
     const calc = calculatePrice(selectedKarat);
-    const waMsg = encodeURIComponent(`Hello, I want to order "${ITEM.title}" (${selectedKarat} Gold) at the live price of ₹${calc.finalPrice.toLocaleString('en-IN')}.`);
+    const isSilver = ITEM.mainCategory.includes('Silver');
+    const waMsg = encodeURIComponent(`Hello! I want to order "${ITEM.title}" (${selectedKarat} Purity) at the live calculated price of ₹${calc.finalPrice.toLocaleString('en-IN')}.`);
     const waLink = `https://wa.me/${WHATSAPP_PHONE}?text=${waMsg}`;
 
     let stoneRows = '';
@@ -85,28 +96,13 @@
       `).join('');
     }
 
-    // Dynamic Purity Selector: Only allow variants for regular jewellery
-    let puritySectionHtml = '';
-    if (ITEM.category === 'Coin') {
-      puritySectionHtml = `<div class="alert alert-warning py-2 px-3 fw-bold small">Purity: 24K (99.9% Fine Gold)</div>`;
-    } else if (ITEM.category === 'Ginni') {
-      puritySectionHtml = `<div class="alert alert-warning py-2 px-3 fw-bold small">Purity: 22K (91.6% Pure Ginni)</div>`;
-    } else {
-      puritySectionHtml = `
-        <label class="form-label fw-bold small text-muted">SELECT GOLD PURITY</label>
-        <div class="btn-group w-100 mb-4" role="group">
-          ${['14K', '18K', '22K'].map(k => `
-            <input type="radio" class="btn-check" name="kOptions" id="k_${k}" ${k === selectedKarat ? 'checked' : ''} onchange="renderProductPage('${k}')">
-            <label class="btn btn-outline-dark" for="k_${k}">${k}</label>
-          `).join('')}
-        </div>
-      `;
-    }
+    // Karat Options Switcher
+    let karatOptions = isSilver ? ['925', '999'] : ['9K', '14K', '18K', '22K', '24K'];
 
     document.getElementById('mainContainer').innerHTML = `
       <div class="mb-3">
         <a href="index.html" class="text-muted text-decoration-none small">
-          <i class="bi bi-arrow-left"></i> Back to Collection
+          <i class="bi bi-arrow-left"></i> Back to Store
         </a>
       </div>
 
@@ -117,22 +113,31 @@
         
         <div class="col-md-6">
           <div class="price-box shadow-sm">
-            <span class="badge bg-light text-primary border mb-2">${ITEM.certificate}</span>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="badge bg-light text-primary border">${ITEM.certificate}</span>
+              <span class="text-muted small">${ITEM.mainCategory}</span>
+            </div>
             <h3 class="fw-bold mb-2">${ITEM.title}</h3>
             <p class="text-muted small mb-3">${ITEM.description || ''}</p>
 
-            ${puritySectionHtml}
+            <label class="form-label fw-bold small text-muted">SELECT PURITY / KARAT</label>
+            <div class="btn-group w-100 mb-4" role="group">
+              ${karatOptions.map(k => `
+                <input type="radio" class="btn-check" name="kOpts" id="k_${k}" ${k === selectedKarat ? 'checked' : ''} onchange="renderProductPage('${k}')">
+                <label class="btn btn-outline-dark" for="k_${k}">${k}</label>
+              `).join('')}
+            </div>
 
             <div class="card bg-light border-0 p-3 mb-4">
-              <h6 class="fw-bold mb-3">Price Breakdown</h6>
+              <h6 class="fw-bold mb-3">Live Price Breakdown</h6>
               <ul class="list-group list-group-flush bg-transparent">
                 <li class="list-group-item bg-transparent d-flex justify-content-between px-0">
-                  <span>Gold Cost (${ITEM.netGoldWt}g @ ${selectedKarat})</span>
-                  <strong>₹${calc.goldCost.toLocaleString('en-IN')}</strong>
+                  <span>${isSilver ? 'Silver' : 'Gold'} Metal (${ITEM.netMetalWt}g @ ${selectedKarat})</span>
+                  <strong>₹${calc.metalCost.toLocaleString('en-IN')}</strong>
                 </li>
                 ${stoneRows}
                 <li class="list-group-item bg-transparent d-flex justify-content-between px-0">
-                  <span>Making Charges</span>
+                  <span>Making / Wastage</span>
                   <strong>₹${calc.makingCharges.toLocaleString('en-IN')}</strong>
                 </li>
                 <li class="list-group-item bg-transparent d-flex justify-content-between px-0">
@@ -141,7 +146,7 @@
                 </li>
                 <li class="list-group-item bg-transparent d-flex justify-content-between px-0 fs-5 fw-bold text-dark pt-2 border-top">
                   <span>Total Amount</span>
-                  <span>₹${calc.finalPrice.toLocaleString('en-IN')}</span>
+                  <span class="text-success">₹${calc.finalPrice.toLocaleString('en-IN')}</span>
                 </li>
               </ul>
             </div>
