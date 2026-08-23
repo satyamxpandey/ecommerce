@@ -72,6 +72,7 @@
       border-bottom: 2px solid transparent;
       background: transparent;
       transition: all 0.3s ease;
+      white-space: nowrap;
     }
     .nav-luxury .nav-link:hover {
       color: var(--maroon-accent);
@@ -80,6 +81,54 @@
       color: var(--maroon-accent);
       border-bottom: 2px solid var(--maroon-accent);
       font-weight: 600;
+    }
+
+    /* Multi-Filter Bar */
+    .filter-panel {
+      background: var(--surface-cream);
+      border: 1px solid var(--border-subtle);
+      padding: 20px 24px;
+      margin-bottom: 36px;
+    }
+    .filter-label {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #7A7267;
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .select-luxury, .search-luxury {
+      background: var(--bg-cream);
+      border: 1px solid var(--border-subtle);
+      border-radius: 0;
+      padding: 8px 12px;
+      font-size: 12px;
+      color: var(--primary-black);
+      font-weight: 500;
+    }
+    .select-luxury:focus, .search-luxury:focus {
+      border-color: var(--maroon-accent);
+      box-shadow: none;
+      background: #FFF;
+    }
+    .btn-reset {
+      background: transparent;
+      border: 1px solid var(--border-maroon);
+      color: var(--maroon-accent);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 0;
+      transition: all 0.2s ease;
+      height: 38px;
+    }
+    .btn-reset:hover {
+      background: var(--maroon-accent);
+      color: #FFF;
     }
 
     /* Product Card */
@@ -140,26 +189,11 @@
       font-weight: 600;
       color: var(--primary-black);
     }
-
-    /* Search Box */
-    .search-luxury {
-      background: var(--surface-cream);
-      border: 1px solid var(--border-subtle);
-      border-radius: 0;
-      padding: 12px 18px;
-      font-size: 13px;
-      letter-spacing: 0.04em;
-    }
-    .search-luxury:focus {
-      border-color: var(--maroon-accent);
-      box-shadow: none;
-      background: #FFF;
-    }
   </style>
 </head>
 <body>
 
-  <!-- Top Announcement / Rate Banner -->
+  <!-- Top Benchmark Rates Header -->
   <header class="header-luxury py-3 px-4">
     <div class="container-fluid d-flex justify-content-between align-items-center flex-wrap gap-3" style="max-width: 1360px;">
       <div>
@@ -203,23 +237,89 @@
     </div>
   </div>
 
-  <!-- Search & Content Grid -->
+  <!-- Main Content Stage -->
   <main class="container-fluid py-5 px-4" style="max-width: 1360px;">
     
-    <div class="row mb-5 justify-content-between align-items-center g-3" data-aos="fade-up">
-      <div class="col-md-5">
-        <input type="text" id="searchBox" class="form-control search-luxury" placeholder="Search by name, weight, or keyword..." onkeyup="filterCatalogue()">
+    <!-- Comprehensive Multi-Attribute Filter Suite -->
+    <div class="filter-panel" data-aos="fade-up">
+      <div class="row g-3 align-items-end">
+        
+        <!-- 1. Search Field -->
+        <div class="col-lg-3 col-md-6">
+          <label class="filter-label">Search Collection</label>
+          <input type="text" id="searchBox" class="form-control search-luxury" placeholder="Design, gemstone, or keyword..." onkeyup="applyAllFilters()">
+        </div>
+
+        <!-- 2. Purity / Karat Filter -->
+        <div class="col-lg-2 col-md-3 col-6">
+          <label class="filter-label">Purity / Karat</label>
+          <select id="karatFilter" class="form-select select-luxury" onchange="applyAllFilters()">
+            <option value="ALL">All Purities</option>
+            <option value="24K">24K (99.9% Gold)</option>
+            <option value="22K">22K (91.6% Gold)</option>
+            <option value="18K">18K (75.0% Gold)</option>
+            <option value="14K">14K (58.3% Gold)</option>
+            <option value="9K">9K (37.5% Gold)</option>
+            <option value="925">925 Sterling Silver</option>
+            <option value="999">999 Fine Silver</option>
+          </select>
+        </div>
+
+        <!-- 3. Price Bracket -->
+        <div class="col-lg-2 col-md-3 col-6">
+          <label class="filter-label">Price Bracket</label>
+          <select id="priceFilter" class="form-select select-luxury" onchange="applyAllFilters()">
+            <option value="ALL">All Price Ranges</option>
+            <option value="0-25000">Under ₹25,000</option>
+            <option value="25000-50000">₹25,000 – ₹50,000</option>
+            <option value="50000-100000">₹50,000 – ₹1,00,000</option>
+            <option value="100000-250000">₹1,00,000 – ₹2,50,000</option>
+            <option value="250000-99999999">₹2,50,000 & Above</option>
+          </select>
+        </div>
+
+        <!-- 4. Weight Classification -->
+        <div class="col-lg-2 col-md-4 col-6">
+          <label class="filter-label">Metal Weight</label>
+          <select id="weightFilter" class="form-select select-luxury" onchange="applyAllFilters()">
+            <option value="ALL">All Weights</option>
+            <option value="0-5">Lightweight (0 – 5g)</option>
+            <option value="5-15">Classic (5g – 15g)</option>
+            <option value="15-30">Statement (15g – 30g)</option>
+            <option value="30-9999">Investment (30g+)</option>
+          </select>
+        </div>
+
+        <!-- 5. Sorting -->
+        <div class="col-lg-2 col-md-4 col-6">
+          <label class="filter-label">Sort Order</label>
+          <select id="sortFilter" class="form-select select-luxury" onchange="applyAllFilters()">
+            <option value="featured">Curated (Default)</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="weight-asc">Weight: Low to High</option>
+            <option value="weight-desc">Weight: High to Low</option>
+          </select>
+        </div>
+
+        <!-- 6. Reset Button -->
+        <div class="col-lg-1 col-md-4 col-12 text-end">
+          <button class="btn btn-reset w-100" onclick="resetAllFilters()" title="Reset Filters">Reset</button>
+        </div>
+
       </div>
-      <div class="col-md-3 text-md-end text-muted small" style="letter-spacing: 0.05em;">
-        Displaying Curated Masterpieces
-      </div>
+    </div>
+
+    <!-- Active Count Counter -->
+    <div class="d-flex justify-content-between align-items-center mb-4 text-muted small" style="letter-spacing: 0.06em;">
+      <div><span id="resultsCount">0</span> Masterpieces Available</div>
     </div>
 
     <!-- Product Grid -->
     <div class="row g-4" id="catalogueGrid">
       <div class="col-12 text-center py-5 text-muted">
         <div class="spinner-border spinner-border-sm text-secondary mb-2" role="status"></div>
-        <div class="small text-uppercase tracking-wider">Accessing Vault...</div>
+        <div class="small text-uppercase">Accessing Vault...</div>
       </div>
     </div>
 
@@ -239,7 +339,7 @@
         STORE_DATA = await res.json();
         document.getElementById('rateGold').innerText = Number(STORE_DATA.rates.gold24k).toLocaleString('en-IN');
         document.getElementById('rateSilver').innerText = Number(STORE_DATA.rates.silver).toLocaleString('en-IN');
-        renderProducts();
+        applyAllFilters();
       } catch (e) {
         document.getElementById('catalogueGrid').innerHTML = `<div class="col-12 text-center py-5 text-muted">Unable to retrieve live inventory.</div>`;
       }
@@ -249,16 +349,75 @@
       ACTIVE_CATEGORY = cat;
       document.querySelectorAll('#categoryTabs .nav-link').forEach(tab => tab.classList.remove('active'));
       event.target.classList.add('active');
-      filterCatalogue();
+      applyAllFilters();
     }
 
-    function renderProducts(items) {
-      const list = items || (STORE_DATA ? STORE_DATA.products : []);
+    function resetAllFilters() {
+      document.getElementById('searchBox').value = '';
+      document.getElementById('karatFilter').value = 'ALL';
+      document.getElementById('priceFilter').value = 'ALL';
+      document.getElementById('weightFilter').value = 'ALL';
+      document.getElementById('sortFilter').value = 'featured';
+      applyAllFilters();
+    }
+
+    function applyAllFilters() {
+      if (!STORE_DATA || !STORE_DATA.products) return;
+
+      const q = document.getElementById('searchBox').value.toLowerCase().trim();
+      const karat = document.getElementById('karatFilter').value;
+      const priceRange = document.getElementById('priceFilter').value;
+      const weightRange = document.getElementById('weightFilter').value;
+      const sortOrder = document.getElementById('sortFilter').value;
+
+      let filtered = STORE_DATA.products.filter(p => {
+        // 1. Category Matching
+        const matchCat = ACTIVE_CATEGORY === 'ALL' || p.mainCategory === ACTIVE_CATEGORY;
+
+        // 2. Keyword Search
+        const matchQuery = !q || p.title.toLowerCase().includes(q) || (p.description && p.description.toLowerCase().includes(q)) || (p.certificate && p.certificate.toLowerCase().includes(q));
+
+        // 3. Karat Filter
+        const matchKarat = karat === 'ALL' || String(p.karat).toUpperCase().includes(karat);
+
+        // 4. Price Bracket
+        let matchPrice = true;
+        if (priceRange !== 'ALL') {
+          const [minP, maxP] = priceRange.split('-').map(Number);
+          matchPrice = p.finalPrice >= minP && p.finalPrice <= maxP;
+        }
+
+        // 5. Weight Bracket
+        let matchWeight = true;
+        if (weightRange !== 'ALL') {
+          const [minW, maxW] = weightRange.split('-').map(Number);
+          matchWeight = p.netMetalWt >= minW && p.netMetalWt <= maxW;
+        }
+
+        return matchCat && matchQuery && matchKarat && matchPrice && matchWeight;
+      });
+
+      // Sort Pipeline
+      if (sortOrder === 'price-asc') {
+        filtered.sort((a, b) => a.finalPrice - b.finalPrice);
+      } else if (sortOrder === 'price-desc') {
+        filtered.sort((a, b) => b.finalPrice - a.finalPrice);
+      } else if (sortOrder === 'weight-asc') {
+        filtered.sort((a, b) => a.netMetalWt - b.netMetalWt);
+      } else if (sortOrder === 'weight-desc') {
+        filtered.sort((a, b) => b.netMetalWt - a.netMetalWt);
+      }
+
+      document.getElementById('resultsCount').innerText = filtered.length;
+      renderProducts(filtered);
+    }
+
+    function renderProducts(list) {
       const grid = document.getElementById('catalogueGrid');
       grid.innerHTML = '';
 
       if (!list || list.length === 0) {
-        grid.innerHTML = `<div class="col-12 text-center py-5 text-muted brand-font fs-5">No designs found under this selection.</div>`;
+        grid.innerHTML = `<div class="col-12 text-center py-5 text-muted brand-font fs-5">No designs match the selected criteria.</div>`;
         return;
       }
 
@@ -266,7 +425,7 @@
         const col = document.createElement('div');
         col.className = 'col-xl-3 col-lg-4 col-sm-6';
         col.setAttribute('data-aos', 'fade-up');
-        col.setAttribute('data-aos-delay', (idx % 4) * 100);
+        col.setAttribute('data-aos-delay', (idx % 4) * 80);
 
         col.innerHTML = `
           <a href="product.html?id=${p.id}" class="card-product">
@@ -288,16 +447,6 @@
         `;
         grid.appendChild(col);
       });
-    }
-
-    function filterCatalogue() {
-      const q = document.getElementById('searchBox').value.toLowerCase();
-      const filtered = STORE_DATA.products.filter(p => {
-        const matchesCat = ACTIVE_CATEGORY === 'ALL' || p.mainCategory === ACTIVE_CATEGORY;
-        const matchesQuery = p.title.toLowerCase().includes(q) || (p.description && p.description.toLowerCase().includes(q));
-        return matchesCat && matchesQuery;
-      });
-      renderProducts(filtered);
     }
 
     window.onload = loadStore;
