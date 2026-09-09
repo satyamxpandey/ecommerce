@@ -186,7 +186,7 @@
 </head>
 <body>
 
-  <!-- Live Rate Benchmark Ticker (22K Gold & Silver) -->
+  <!-- Live Rate Benchmark Ticker (Per 10 Grams) -->
   <header class="header-luxury py-3 px-4">
     <div class="container-fluid d-flex justify-content-between align-items-center flex-wrap gap-3" style="max-width: 1360px;">
       <div>
@@ -195,10 +195,10 @@
       </div>
       <div class="d-flex gap-2 flex-wrap">
         <div class="rate-pill">
-          Gold 22K Benchmark: <strong>₹<span id="rateGold22">...</span> /g</strong>
+          Gold 22K (10g): <strong>₹<span id="rateGold22">...</span></strong>
         </div>
         <div class="rate-pill" style="border-color: #D3C9BE; color: #555;">
-          Silver Benchmark: <strong>₹<span id="rateSilver">...</span> /g</strong>
+          Silver (10g): <strong>₹<span id="rateSilver">...</span></strong>
         </div>
       </div>
     </div>
@@ -230,7 +230,6 @@
     </div>
   </div>
 
-  <!-- Main Content Stage -->
   <main class="container-fluid py-5 px-4" style="max-width: 1360px;">
     
     <!-- Multi-Filter Suite -->
@@ -297,12 +296,10 @@
       </div>
     </div>
 
-    <!-- Active Count Counter -->
     <div class="d-flex justify-content-between align-items-center mb-4 text-muted small" style="letter-spacing: 0.06em;">
       <div><span id="resultsCount">0</span> Masterpieces Available</div>
     </div>
 
-    <!-- Product Grid -->
     <div class="row g-4" id="catalogueGrid">
       <div class="col-12 text-center py-5 text-muted">
         <div class="spinner-border spinner-border-sm text-secondary mb-2" role="status"></div>
@@ -324,8 +321,8 @@
       try {
         const res = await fetch(API_URL);
         STORE_DATA = await res.json();
-        document.getElementById('rateGold22').innerText = Number(STORE_DATA.rates.gold22k).toLocaleString('en-IN');
-        document.getElementById('rateSilver').innerText = Number(STORE_DATA.rates.silver).toLocaleString('en-IN');
+        document.getElementById('rateGold22').innerText = Number(STORE_DATA.rates.gold22kPer10g).toLocaleString('en-IN');
+        document.getElementById('rateSilver').innerText = Number(STORE_DATA.rates.silverPer10g).toLocaleString('en-IN');
         applyAllFilters();
       } catch (e) {
         document.getElementById('catalogueGrid').innerHTML = `<div class="col-12 text-center py-5 text-muted">Unable to retrieve live inventory.</div>`;
