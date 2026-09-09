@@ -63,31 +63,33 @@
 
 <div class="container" style="max-width: 920px;">
   
-  <div class="d-flex justify-content-between align-items-center mb-4">
+  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
     <div>
       <h3 style="font-family: var(--font-serif);" class="m-0">Vault Master Controller</h3>
-      <small class="text-muted text-uppercase" style="letter-spacing: 0.08em;">Inventory & Dynamic Benchmark Portal</small>
+      <small class="text-muted text-uppercase" style="letter-spacing: 0.08em;">Inventory & 22K Benchmark Portal</small>
     </div>
     <div class="d-flex gap-2">
-      <span class="badge" style="background: #FFF; border: 1px solid var(--border-subtle); color: var(--maroon-accent);">Gold 24K: ₹<span id="admGold">...</span>/g</span>
+      <span class="badge" style="background: #FFF; border: 1px solid var(--border-subtle); color: var(--maroon-accent);">Gold 22K: ₹<span id="admGold22">...</span>/g</span>
       <span class="badge" style="background: #FFF; border: 1px solid var(--border-subtle); color: #555;">Silver: ₹<span id="admSilver">...</span>/g</span>
     </div>
   </div>
 
   <div class="row g-4">
     
-    <!-- 1. Master Metal Benchmark Controllers -->
+    <!-- 1. Master 22K Benchmark Controller -->
     <div class="col-12">
       <div class="card-admin">
-        <h5 style="font-family: var(--font-serif); color: var(--maroon-accent);" class="mb-3">Master Metal Benchmarks</h5>
+        <h5 style="font-family: var(--font-serif); color: var(--maroon-accent);" class="mb-2">Master Metal Benchmarks</h5>
+        <p class="text-muted small mb-3">Updating 22K benchmark automatically recalculates 24K bullion, 18K, 14K, and 9K rates.</p>
+        
         <div class="row g-3">
           <div class="col-md-6">
-            <label class="form-label small text-muted text-uppercase fw-semibold">Gold 24K Benchmark (₹/g)</label>
-            <input type="number" id="rateGoldInput" class="form-control" placeholder="7400">
+            <label class="form-label small text-muted text-uppercase fw-semibold">Gold 22K Benchmark (₹/g)</label>
+            <input type="number" id="rateGold22Input" class="form-control" placeholder="e.g. 6800">
           </div>
           <div class="col-md-6">
             <label class="form-label small text-muted text-uppercase fw-semibold">Silver Benchmark (₹/g)</label>
-            <input type="number" id="rateSilverInput" class="form-control" placeholder="92">
+            <input type="number" id="rateSilverInput" class="form-control" placeholder="e.g. 92">
           </div>
           <div class="col-12 mt-3">
             <button class="btn btn-maroon w-100" id="btnRates" onclick="updateRates()">Recalculate Global Catalogue</button>
@@ -96,7 +98,7 @@
       </div>
     </div>
 
-    <!-- 2. Catalog Publication System -->
+    <!-- 2. Product Publishing Form -->
     <div class="col-12">
       <div class="card-admin">
         <h5 style="font-family: var(--font-serif);" class="mb-4">Publish Architectural Piece</h5>
@@ -188,9 +190,9 @@
     try {
       const res = await fetch(API_URL);
       const data = await res.json();
-      document.getElementById('admGold').innerText = Number(data.rates.gold24k).toLocaleString('en-IN');
+      document.getElementById('admGold22').innerText = Number(data.rates.gold22k).toLocaleString('en-IN');
       document.getElementById('admSilver').innerText = Number(data.rates.silver).toLocaleString('en-IN');
-      document.getElementById('rateGoldInput').value = data.rates.gold24k;
+      document.getElementById('rateGold22Input').value = data.rates.gold22k;
       document.getElementById('rateSilverInput').value = data.rates.silver;
     } catch(e) {
       console.error(e);
@@ -214,7 +216,7 @@
   }
 
   async function updateRates() {
-    const gRate = document.getElementById('rateGoldInput').value;
+    const g22 = document.getElementById('rateGold22Input').value;
     const sRate = document.getElementById('rateSilverInput').value;
     const btn = document.getElementById('btnRates');
     btn.disabled = true;
@@ -223,9 +225,9 @@
     try {
       await fetch(API_URL, {
         method: "POST",
-        body: JSON.stringify({ action: "updateRate", goldRate: gRate, silverRate: sRate })
+        body: JSON.stringify({ action: "updateRate", goldRate22k: g22, silverRate: sRate })
       });
-      alert('Global bullion benchmarks synchronized.');
+      alert('22K Gold & Silver benchmarks synchronized.');
       initAdmin();
     } catch(e) {
       alert('Benchmarks synchronized.');
