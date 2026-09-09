@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>All Jewellery | Suman Jewellers</title>
 
+  <!-- Google Fonts & Bootstrap -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
@@ -16,58 +17,63 @@
       --bg-cream: #FAF7F2;
       --surface-cream: #FFFFFF;
       --primary-black: #121212;
+      --text-muted: #666666;
       --maroon-accent: #6B1D2F;
       --maroon-hover: #4E1220;
       --maroon-light: #F4E8EB;
       --border-maroon: rgba(107, 29, 47, 0.25);
       --border-subtle: #E8E2D9;
       --font-serif: 'Playfair Display', Georgia, serif;
-      --font-sans: 'Montserrat', sans-serif;
+      --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
     body {
       background-color: var(--bg-cream);
       font-family: var(--font-sans);
       color: var(--primary-black);
-      letter-spacing: 0.02em;
+      letter-spacing: 0.01em;
       overflow-x: hidden;
     }
 
-    h1, h2, h3, h4, h5, .brand-font {
-      font-family: var(--font-serif);
-      letter-spacing: 0.04em;
-    }
-
+    /* Luxury Header */
     .header-luxury {
       background: var(--surface-cream);
       border-bottom: 1px solid var(--border-subtle);
+    }
+    .header-title {
+      font-family: var(--font-serif);
+      letter-spacing: 0.04em;
     }
     .rate-pill {
       border: 1px solid var(--border-maroon);
       background: var(--surface-cream);
       padding: 6px 16px;
       font-size: 11px;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       font-weight: 600;
       color: var(--maroon-accent);
+      font-family: var(--font-sans);
     }
 
+    /* Category Navigation */
     .nav-luxury-container {
       border-bottom: 1px solid var(--border-subtle);
+      background: var(--surface-cream);
     }
     .nav-luxury .nav-link {
-      color: #666;
+      color: var(--text-muted);
       font-size: 12px;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       font-weight: 500;
-      padding: 16px 24px;
+      padding: 16px 22px;
       border: none;
       border-bottom: 2px solid transparent;
       background: transparent;
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
       white-space: nowrap;
+      font-family: var(--font-sans);
     }
     .nav-luxury .nav-link:hover {
       color: var(--maroon-accent);
@@ -75,9 +81,10 @@
     .nav-luxury .nav-link.active {
       color: var(--maroon-accent);
       border-bottom: 2px solid var(--maroon-accent);
-      font-weight: 600;
+      font-weight: 700;
     }
 
+    /* Multi-Filter Suite */
     .filter-panel {
       background: var(--surface-cream);
       border: 1px solid var(--border-subtle);
@@ -85,22 +92,24 @@
       margin-bottom: 36px;
     }
     .filter-label {
-      font-size: 10px;
-      letter-spacing: 0.14em;
+      font-size: 11px;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       color: #7A7267;
       font-weight: 600;
       margin-bottom: 6px;
       display: block;
+      font-family: var(--font-sans);
     }
     .select-luxury, .search-luxury {
       background: var(--bg-cream);
       border: 1px solid var(--border-subtle);
       border-radius: 0;
-      padding: 8px 12px;
-      font-size: 12px;
+      padding: 9px 12px;
+      font-size: 13px;
       color: var(--primary-black);
       font-weight: 500;
+      font-family: var(--font-sans);
     }
     .select-luxury:focus, .search-luxury:focus {
       border-color: var(--maroon-accent);
@@ -112,33 +121,34 @@
       border: 1px solid var(--border-maroon);
       color: var(--maroon-accent);
       font-size: 11px;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       font-weight: 600;
-      padding: 8px 16px;
+      padding: 9px 16px;
       border-radius: 0;
       transition: all 0.2s ease;
-      height: 38px;
+      height: 42px;
+      font-family: var(--font-sans);
     }
     .btn-reset:hover {
       background: var(--maroon-accent);
       color: #FFF;
     }
 
+    /* Product Card */
     .card-product {
       background: var(--surface-cream);
       border: 1px solid var(--border-subtle);
-      transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease, border-color 0.3s ease;
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.25s ease;
       text-decoration: none;
       color: inherit;
       display: flex;
       flex-direction: column;
       height: 100%;
-      position: relative;
     }
     .card-product:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 16px 36px rgba(107, 29, 47, 0.08);
+      transform: translateY(-5px);
+      box-shadow: 0 14px 28px rgba(107, 29, 47, 0.08);
       border-color: var(--maroon-accent);
       color: inherit;
     }
@@ -146,7 +156,7 @@
       position: relative;
       overflow: hidden;
       background-color: #F0EDE8;
-      padding-top: 110%;
+      padding-top: 105%;
     }
     .card-img-wrapper img {
       position: absolute;
@@ -155,32 +165,55 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.8s ease;
+      transition: transform 0.6s ease;
     }
     .card-product:hover .card-img-wrapper img {
-      transform: scale(1.05);
+      transform: scale(1.04);
     }
+
+    /* Simple Clean Typography for Product Info */
     .cert-badge {
       font-size: 10px;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       color: var(--maroon-accent);
       background: var(--maroon-light);
       padding: 3px 8px;
       font-weight: 600;
+      font-family: var(--font-sans);
+    }
+    .weight-text {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-family: var(--font-sans);
+      font-weight: 500;
+    }
+    .product-title {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary-black);
+      line-height: 1.45;
+      margin-bottom: 8px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
     .karat-badge {
       font-size: 11px;
-      letter-spacing: 0.08em;
+      font-weight: 600;
       border: 1px solid var(--border-subtle);
       padding: 2px 8px;
-      color: #777;
+      color: #555555;
+      font-family: var(--font-sans);
     }
     .price-tag {
-      font-family: var(--font-serif);
-      font-size: 1.25rem;
-      font-weight: 600;
+      font-family: var(--font-sans);
+      font-size: 16px;
+      font-weight: 700;
       color: var(--primary-black);
+      letter-spacing: -0.01em;
     }
   </style>
 </head>
@@ -190,8 +223,8 @@
   <header class="header-luxury py-3 px-4">
     <div class="container-fluid d-flex justify-content-between align-items-center flex-wrap gap-3" style="max-width: 1360px;">
       <div>
-        <h3 class="m-0 text-uppercase fw-bold brand-font">All Jewellery</h3>
-        <p class="m-0 text-muted small" style="letter-spacing: 0.08em;">Explore Suman Jewellers Collection</p>
+        <h3 class="m-0 text-uppercase fw-bold header-title">All Jewellery</h3>
+        <p class="m-0 text-muted small" style="letter-spacing: 0.05em;">Explore Suman Jewellers Collection</p>
       </div>
       <div class="d-flex gap-2 flex-wrap">
         <div class="rate-pill">
@@ -204,7 +237,7 @@
     </div>
   </header>
 
-  <!-- Category Filter Bar -->
+  <!-- Category Navigation -->
   <div class="nav-luxury-container">
     <div class="container-fluid px-4" style="max-width: 1360px;">
       <ul class="nav nav-luxury flex-nowrap overflow-auto" id="categoryTabs">
@@ -238,7 +271,7 @@
         
         <div class="col-lg-3 col-md-6">
           <label class="filter-label">Search Collection</label>
-          <input type="text" id="searchBox" class="form-control search-luxury" placeholder="Design, gemstone, or keyword..." onkeyup="applyAllFilters()">
+          <input type="text" id="searchBox" class="form-control search-luxury" placeholder="Search by name, weight, or stone..." onkeyup="applyAllFilters()">
         </div>
 
         <div class="col-lg-2 col-md-3 col-6">
@@ -281,7 +314,7 @@
         <div class="col-lg-2 col-md-4 col-6">
           <label class="filter-label">Sort Order</label>
           <select id="sortFilter" class="form-select select-luxury" onchange="applyAllFilters()">
-            <option value="featured">Curated (Default)</option>
+            <option value="featured">Default (Curated)</option>
             <option value="price-asc">Price: Low to High</option>
             <option value="price-desc">Price: High to Low</option>
             <option value="weight-asc">Weight: Low to High</option>
@@ -296,14 +329,16 @@
       </div>
     </div>
 
-    <div class="d-flex justify-content-between align-items-center mb-4 text-muted small" style="letter-spacing: 0.06em;">
-      <div><span id="resultsCount">0</span> Masterpieces Available</div>
+    <!-- Active Item Count -->
+    <div class="d-flex justify-content-between align-items-center mb-4 text-muted small" style="font-family: var(--font-sans);">
+      <div><span id="resultsCount" class="fw-bold text-dark">0</span> Designs Available</div>
     </div>
 
+    <!-- Product Grid -->
     <div class="row g-4" id="catalogueGrid">
       <div class="col-12 text-center py-5 text-muted">
         <div class="spinner-border spinner-border-sm text-secondary mb-2" role="status"></div>
-        <div class="small text-uppercase">Accessing Vault...</div>
+        <div class="small text-uppercase">Loading Collection...</div>
       </div>
     </div>
 
@@ -311,18 +346,51 @@
 
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
-    AOS.init({ duration: 800, once: true, offset: 50 });
+    AOS.init({ duration: 600, once: true, offset: 40 });
 
     const API_URL = "https://script.google.com/macros/s/AKfycbz5uc_CI0_NhdStVcFhtvDJ7PORoGu7qzlx_JL44S1G4tQmvxpo9tPRicv9a_rNrqT5/exec";
     let STORE_DATA = null;
     let ACTIVE_CATEGORY = 'ALL';
 
+    // Exact dynamic price calculation (Per 10 Gram base divided by 10)
+    function calculateItemPrice(p) {
+      if (!STORE_DATA || !STORE_DATA.rates) return Number(p.finalPrice || 0);
+
+      const isSilver = p.mainCategory && p.mainCategory.includes('Silver');
+      const silver10g = Number(STORE_DATA.rates.silverPer10g || STORE_DATA.rates.silver || 920);
+      const gold22k10g = Number(STORE_DATA.rates.gold22kPer10g || STORE_DATA.rates.gold22k || 68000);
+
+      // Derive per-gram rate (divide by 10)
+      const silverPerGram = silver10g > 1000 ? (silver10g / 10) : silver10g;
+      const gold22kPerGram = gold22k10g > 10000 ? (gold22k10g / 10) : gold22k10g;
+
+      let metalCost = 0;
+      if (isSilver) {
+        const factor = (p.karat === '925') ? 0.9250 : 1.0000;
+        metalCost = Number(p.netMetalWt || 0) * (silverPerGram * factor);
+      } else {
+        const ratioFrom22k = {
+          "24K": 24 / 22,
+          "22K": 1.0000,
+          "18K": 18 / 22,
+          "14K": 14 / 22,
+          "9K":  9 / 22
+        };
+        const factor = ratioFrom22k[p.karat] || 1.0;
+        metalCost = Number(p.netMetalWt || 0) * (gold22kPerGram * factor);
+      }
+
+      const subtotal = metalCost + Number(p.makingCharges || 0) + Number(p.stoneCost || 0);
+      const gst = subtotal * (Number(STORE_DATA.rates.gst || 3) / 100);
+      return Math.round(subtotal + gst);
+    }
+
     async function loadStore() {
       try {
         const res = await fetch(API_URL);
         STORE_DATA = await res.json();
-        document.getElementById('rateGold22').innerText = Number(STORE_DATA.rates.gold22kPer10g).toLocaleString('en-IN');
-        document.getElementById('rateSilver').innerText = Number(STORE_DATA.rates.silverPer10g).toLocaleString('en-IN');
+        document.getElementById('rateGold22').innerText = Number(STORE_DATA.rates.gold22kPer10g || STORE_DATA.rates.gold22k || 68000).toLocaleString('en-IN');
+        document.getElementById('rateSilver').innerText = Number(STORE_DATA.rates.silverPer10g || STORE_DATA.rates.silver || 920).toLocaleString('en-IN');
         applyAllFilters();
       } catch (e) {
         document.getElementById('catalogueGrid').innerHTML = `<div class="col-12 text-center py-5 text-muted">Unable to retrieve live inventory.</div>`;
@@ -354,7 +422,10 @@
       const weightRange = document.getElementById('weightFilter').value;
       const sortOrder = document.getElementById('sortFilter').value;
 
-      let filtered = STORE_DATA.products.filter(p => {
+      let filtered = STORE_DATA.products.map(p => {
+        // Compute live accurate price for each product
+        return { ...p, calculatedPrice: calculateItemPrice(p) };
+      }).filter(p => {
         const matchCat = ACTIVE_CATEGORY === 'ALL' || p.mainCategory === ACTIVE_CATEGORY;
         const matchQuery = !q || p.title.toLowerCase().includes(q) || (p.description && p.description.toLowerCase().includes(q)) || (p.certificate && p.certificate.toLowerCase().includes(q));
         const matchKarat = karat === 'ALL' || String(p.karat).toUpperCase().includes(karat);
@@ -362,26 +433,26 @@
         let matchPrice = true;
         if (priceRange !== 'ALL') {
           const [minP, maxP] = priceRange.split('-').map(Number);
-          matchPrice = p.finalPrice >= minP && p.finalPrice <= maxP;
+          matchPrice = p.calculatedPrice >= minP && p.calculatedPrice <= maxP;
         }
 
         let matchWeight = true;
         if (weightRange !== 'ALL') {
           const [minW, maxW] = weightRange.split('-').map(Number);
-          matchWeight = p.netMetalWt >= minW && p.netMetalWt <= maxW;
+          matchWeight = Number(p.netMetalWt) >= minW && Number(p.netMetalWt) <= maxW;
         }
 
         return matchCat && matchQuery && matchKarat && matchPrice && matchWeight;
       });
 
       if (sortOrder === 'price-asc') {
-        filtered.sort((a, b) => a.finalPrice - b.finalPrice);
+        filtered.sort((a, b) => a.calculatedPrice - b.calculatedPrice);
       } else if (sortOrder === 'price-desc') {
-        filtered.sort((a, b) => b.finalPrice - a.finalPrice);
+        filtered.sort((a, b) => b.calculatedPrice - a.calculatedPrice);
       } else if (sortOrder === 'weight-asc') {
-        filtered.sort((a, b) => a.netMetalWt - b.netMetalWt);
+        filtered.sort((a, b) => Number(a.netMetalWt) - Number(b.netMetalWt));
       } else if (sortOrder === 'weight-desc') {
-        filtered.sort((a, b) => b.netMetalWt - a.netMetalWt);
+        filtered.sort((a, b) => Number(b.netMetalWt) - Number(a.netMetalWt));
       }
 
       document.getElementById('resultsCount').innerText = filtered.length;
@@ -393,7 +464,7 @@
       grid.innerHTML = '';
 
       if (!list || list.length === 0) {
-        grid.innerHTML = `<div class="col-12 text-center py-5 text-muted brand-font fs-5">No designs match the selected criteria.</div>`;
+        grid.innerHTML = `<div class="col-12 text-center py-5 text-muted fs-6">No designs match the selected criteria.</div>`;
         return;
       }
 
@@ -401,22 +472,22 @@
         const col = document.createElement('div');
         col.className = 'col-xl-3 col-lg-4 col-sm-6';
         col.setAttribute('data-aos', 'fade-up');
-        col.setAttribute('data-aos-delay', (idx % 4) * 80);
+        col.setAttribute('data-aos-delay', (idx % 4) * 60);
 
         col.innerHTML = `
           <a href="product.html?id=${p.id}" class="card-product">
             <div class="card-img-wrapper">
               <img src="${p.image}" alt="${p.title}" onerror="this.src='https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600'"/>
             </div>
-            <div class="p-4 d-flex flex-column flex-grow-1">
+            <div class="p-3 d-flex flex-column flex-grow-1">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <span class="cert-badge">${p.certificate || 'BIS Hallmarked'}</span>
-                <span class="text-muted small">${p.netMetalWt}g Net</span>
+                <span class="weight-text">${p.netMetalWt}g Net</span>
               </div>
-              <h6 class="fw-semibold text-dark mb-3 brand-font" style="font-size: 1.05rem;">${p.title}</h6>
+              <h6 class="product-title text-dark">${p.title}</h6>
               <div class="mt-auto d-flex justify-content-between align-items-baseline pt-2 border-top">
                 <span class="karat-badge">${p.karat}</span>
-                <span class="price-tag">₹${Number(p.finalPrice).toLocaleString('en-IN')}</span>
+                <span class="price-tag">₹${Number(p.calculatedPrice).toLocaleString('en-IN')}</span>
               </div>
             </div>
           </a>
