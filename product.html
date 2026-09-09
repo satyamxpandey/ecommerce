@@ -141,7 +141,9 @@
     
     if (isSilver) {
       const factor = (selectedKarat === '925') ? 0.9250 : 1.0000;
-      metalCost = ITEM.netMetalWt * (STORE_DATA.rates.silver * factor);
+      // Derived silver rate per gram from 10g rate
+      const silverPerGram = (STORE_DATA.rates.silverPer10g / 10);
+      metalCost = ITEM.netMetalWt * (silverPerGram * factor);
     } else {
       const ratioFrom22k = {
         "24K": 24 / 22,
@@ -151,7 +153,9 @@
         "9K":  9 / 22
       };
       const factor = ratioFrom22k[selectedKarat] || 1.0;
-      metalCost = ITEM.netMetalWt * (STORE_DATA.rates.gold22k * factor);
+      // Derived 22K rate per gram from 10g rate
+      const gold22kPerGram = (STORE_DATA.rates.gold22kPer10g / 10);
+      metalCost = ITEM.netMetalWt * (gold22kPerGram * factor);
     }
 
     const subtotal = metalCost + ITEM.makingCharges + ITEM.stoneCost;
